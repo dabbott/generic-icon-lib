@@ -18,16 +18,16 @@ import { handleError } from './utils';
 import { render, unmount } from './view';
 
 async function main() {
-  await prechecks();
   const cli = meow(
     `
 	Usage
 	  $ ${path.basename(process.argv[1])} --file=<file-key>
 
 	Options
-	  --file, -f    File Key from Figma
-    --page, -p    Page name
-	  --help        Show this message
+	  --file, -f      File Key from Figma
+    --page, -p      Page name
+    --force         Allow dirty working directory
+	  --help          Show this message
 
 	Examples
 	  $ ${path.basename(process.argv[1])} --file=EEggMA9IV81CYzCSI8LFEUOY
@@ -46,6 +46,10 @@ async function main() {
       },
     }
   );
+
+  if (!cli.flags.force) {
+    await prechecks();
+  }
 
   if (!cli.flags.file) {
     cli.showHelp(1);
