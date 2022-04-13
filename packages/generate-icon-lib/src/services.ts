@@ -1,31 +1,31 @@
-import { Headers } from 'node-fetch';
-import * as prettier from 'prettier';
-import isOnline from 'is-online';
-import * as tempy from 'tempy';
-import * as fs from 'fs-extra';
+import chalk from 'chalk';
 import cheerio from 'cheerio';
-import * as path from 'path';
-import * as _ from 'lodash';
 import * as ejs from 'ejs';
 import execa from 'execa';
-import { FILE_PATH_MANIFEST, FILE_PATH_ENTRY, FILE_PATH_TYPES, FOLDER_PATH_ICONS } from './consts';
+import * as fs from 'fs-extra';
+import isOnline from 'is-online';
+import * as _ from 'lodash';
+import { Headers } from 'node-fetch';
+import * as path from 'path';
+import * as prettier from 'prettier';
+import * as tempy from 'tempy';
+import { FILE_PATH_ENTRY, FILE_PATH_MANIFEST, FILE_PATH_TYPES, FOLDER_PATH_ICONS } from './consts';
 import {
   CodedError,
   ERRORS,
-  IFigmaConfig,
-  IIcons,
-  IIconsSvgUrls,
-  IIconManifest,
-  IIcon,
   IDiffSummary,
-  ITemplateIcon,
   IFigmaCanvas,
+  IFigmaConfig,
   IFigmaDocument,
   IFigmaFileImageResponse,
   IFigmaFileResponse,
+  IIcon,
+  IIconManifest,
+  IIcons,
+  IIconsSvgUrls,
+  ITemplateIcon,
 } from './types';
-import { getSvgo, fetch, pushObjLeafNodesToArr, handleError } from './utils';
-import chalk from 'chalk';
+import { fetch, getSvgo, handleError, pushObjLeafNodesToArr } from './utils';
 
 const transformers = {
   /**
@@ -42,7 +42,7 @@ const transformers = {
    */
   injectCurrentColor(svgRaw: string) {
     const $ = cheerio.load(svgRaw, { xmlMode: true });
-    $('*').each((i, el) => {
+    $('*').each((i, el: any) => {
       Object.keys(el.attribs).forEach((attrKey) => {
         if (['fill', 'stroke'].includes(attrKey)) {
           const val = $(el).attr(attrKey);
@@ -63,7 +63,7 @@ const transformers = {
 
   readyForJSX(svgRaw: string) {
     const $ = cheerio.load(svgRaw, { xmlMode: true });
-    $('*').each((i, el) => {
+    $('*').each((i, el: any) => {
       Object.keys(el.attribs).forEach((attrKey) => {
         if (attrKey.includes('-')) {
           $(el).attr(_.camelCase(attrKey), el.attribs[attrKey]).removeAttr(attrKey);
@@ -260,7 +260,9 @@ export function getIcons(iconsCanvas: IFigmaCanvas): IIcons {
 export async function downloadSvgsToFs(urls: IIconsSvgUrls, icons: IIcons, onProgress: () => void) {
   await Promise.all(
     Object.keys(urls).map(async (iconId) => {
-      const processedSvg = await (await fetch(urls[iconId]))
+      const processedSvg = await (
+        await fetch(urls[iconId])
+      )
         .text()
         .then(async (svgRaw) => transformers.passSVGO(svgRaw))
         .then((svgRaw) => transformers.injectCurrentColor(svgRaw))
