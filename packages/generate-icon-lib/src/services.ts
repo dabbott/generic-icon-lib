@@ -220,8 +220,8 @@ export async function renderIdsToSvgs(ids: string[], config: IFigmaConfig): Prom
   return data.images;
 }
 
-export function getIconsPage(document: IFigmaDocument): IFigmaCanvas | null {
-  const canvas = document.children.find((page) => page.name.toLowerCase() === 'icons');
+export function getIconsPage(document: IFigmaDocument, pageName: string): IFigmaCanvas | null {
+  const canvas = document.children.find((page) => page.name.toLowerCase() === pageName.toLowerCase());
 
   return canvas && canvas.type === 'CANVAS' ? canvas : null;
 }

@@ -1,20 +1,19 @@
-import path from 'path';
 import meow from 'meow';
-import chalk from 'chalk';
-import { CodedError, ERRORS } from './types';
+import path from 'path';
 import {
-  generateReactComponents,
-  generateIconManifest,
-  swapGeneratedFiles,
   createFigmaConfig,
-  getFigmaDocument,
   downloadSvgsToFs,
+  generateIconManifest,
+  generateReactComponents,
+  getFigmaDocument,
   getGitCustomDiff,
-  renderIdsToSvgs,
+  getIcons,
   getIconsPage,
   prechecks,
-  getIcons,
+  renderIdsToSvgs,
+  swapGeneratedFiles,
 } from './services';
+import { CodedError, ERRORS } from './types';
 import { handleError } from './utils';
 import { render, unmount } from './view';
 
@@ -27,6 +26,7 @@ async function main() {
 
 	Options
 	  --file, -f    File Key from Figma
+    --page, -p    Page name
 	  --help        Show this message
 
 	Examples
@@ -38,6 +38,10 @@ async function main() {
         file: {
           type: 'string',
           alias: 'f',
+        },
+        page: {
+          type: 'string',
+          alias: 'p',
         },
       },
     }
@@ -57,14 +61,11 @@ async function main() {
 
   const document = await getFigmaDocument(figmaConfig);
   render({
-    spinners: [
-      { success: true, text: 'Found the Figma file 👌' },
-      { text: 'Finding all Icons in the designs...' },
-    ],
+    spinners: [{ success: true, text: 'Found the Figma file 👌' }, { text: 'Finding all Icons in the designs...' }],
   });
 
   /* 2. Filter nodes for our Icons page */
-  const iconsCanvas = getIconsPage(document);
+  const iconsCanvas = getIconsPage(document, cli.flags.page || 'icons');
   if (!iconsCanvas) {
     throw new CodedError(
       ERRORS.NO_ICONS_PAGE,
@@ -143,9 +144,7 @@ async function main() {
 
   /* 6. Generate React Components from the SVGs */
 
-  const [previousIconManifest, nextIconManifest] = await generateIconManifest(
-    icons
-  );
+  const [previousIconManifest, nextIconManifest] = await generateIconManifest(icons);
 
   render({
     spinners: [
@@ -160,10 +159,7 @@ async function main() {
   });
 
   /* 7. Apply all new files, while removing previous dirs/files entirely. */
-  const touchedPaths = await swapGeneratedFiles(
-    previousIconManifest,
-    nextIconManifest
-  );
+  const touchedPaths = await swapGeneratedFiles(previousIconManifest, nextIconManifest);
 
   render({
     spinners: [
@@ -191,6 +187,6 @@ main()
   .then(() => {
     console.log('Bai 👋');
   })
-  .catch(err => handleError(err));
+  .catch((err) => handleError(err));
 
-process.addListener('unhandledRejection', err => handleError(err));
+process.addListener('unhandledRejection', (err) => handleError(err));
