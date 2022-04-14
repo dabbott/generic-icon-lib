@@ -71,17 +71,21 @@ const transformers = {
         if (attrKey === 'class') {
           $(el).attr('className', el.attribs[attrKey]).removeAttr(attrKey);
         }
+        if (attrKey === 'xmlns') {
+          $(el).removeAttr(attrKey);
+        }
       });
     });
 
     return $('svg')
-      .attr('props', '...')
-      .attr('ref', 'forwardedRef')
       .toString()
       .replace(/stroke=['|"]currentColor['|"]/g, 'stroke={color}')
       .replace(/fill=['|"]currentColor['|"]/g, 'fill={color}')
       .replace('props="..."', '{...props}')
-      .replace('ref="forwardedRef"', 'ref={forwardedRef}');
+      .replace('ref="forwardedRef"', 'ref={forwardedRef}')
+      .replace(/(\<\/?)(\w+)/g, (substring, bracket, tag) => {
+        return `${bracket}Svg.${_.upperFirst(tag)}`;
+      });
   },
 };
 
