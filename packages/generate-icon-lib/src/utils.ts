@@ -1,10 +1,10 @@
-import { CodedError, ERRORS, RequestInitWithRetry } from './types';
-import nodeFetch, { Response } from 'node-fetch';
+import chalk from 'chalk';
 import isOnline from 'is-online';
 import * as _ from 'lodash';
+import nodeFetch, { Response } from 'node-fetch';
 import SVGO from 'svgo';
+import { CodedError, ERRORS, RequestInitWithRetry } from './types';
 import { unmount } from './view';
-import chalk from 'chalk';
 
 export function handleError(err, exit = true) {
   unmount();
@@ -66,7 +66,7 @@ export function fetch(url: string, fetchOptions: RequestInitWithRetry = {}): Pro
 }
 
 function asyncDelay(timeout: number) {
-  return new Promise((resolve) => {
+  return new Promise<void>((resolve) => {
     setTimeout(() => {
       resolve();
     }, timeout);

@@ -32,7 +32,7 @@
     "react": "^16.x || ^17.x"
   },
   "devDependencies": {
-    "@modulz/generate-icon-lib": "^0.2.0",
+    "@dabbott/generate-icon-lib": "^0.0.1",
     "tsdx": "0.14.0"
   },
   "gitHead": "efac090e58b8e44ad0ace704e9262d2f82c60050"

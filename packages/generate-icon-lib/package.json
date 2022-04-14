@@ -1,25 +1,30 @@
 {
   "name": "@dabbott/generate-icon-lib",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Icon library src generator",
+  "main": "./dist/cli.js",
   "bin": {
-    "generate-icon-lib": "./index.js"
+    "generate-icon-lib": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "rimraf dist && npx tsc --outDir dist",
+    "prepare": "npx build"
   },
   "dependencies": {
-    "@types/cheerio": "^0.22.11",
+    "@types/cheerio": "^0.22.31",
     "@types/dotenv": "^6.1.1",
     "@types/ejs": "^2.6.3",
     "@types/execa": "^0.9.0",
     "@types/fs-extra": "^5.0.5",
-    "@types/ink": "^0.5.1",
+    "@types/ink": "^2.0.3",
     "@types/lodash": "^4.14.123",
     "@types/node": "^11.13.5",
     "@types/node-fetch": "^2.3.2",
     "@types/prettier": "^1.16.3",
-    "@types/react": "^16.8.17",
+    "@types/react": "17.x",
     "@types/svgo": "^1.3.3",
     "chalk": "^2.4.2",
-    "cheerio": "^1.0.0-rc.3",
+    "cheerio": "^1.0.0-rc.10",
     "dotenv": "^7.0.0",
     "ejs": "^2.6.1",
     "execa": "^1.0.0",
@@ -32,10 +37,10 @@
     "meow": "^5.0.0",
     "node-fetch": "^2.4.1",
     "pretty-bytes": "^5.2.0",
-    "react": "17.0.2",
+    "react": "17",
     "svgo": "^1.2.2",
     "tempy": "^0.3.0",
     "ts-node": "^8.1.0",
-    "typescript": "^3.4.3"
+    "typescript": "^4.6.3"
   }
 }

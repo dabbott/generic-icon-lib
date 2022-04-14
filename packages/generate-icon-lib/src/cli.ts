@@ -20,18 +20,18 @@ import { render, unmount } from './view';
 async function main() {
   const cli = meow(
     `
-	Usage
-	  $ ${path.basename(process.argv[1])} --file=<file-key>
+  Usage
+    $ ${path.basename(process.argv[1])} --file=<file-key>
 
-	Options
-	  --file, -f      File Key from Figma
+  Options
+    --file, -f      File Key from Figma
     --page, -p      Page name
     --out, -o       Output directory. Defaults to current directory
     --force         Allow dirty working directory
-	  --help          Show this message
+    --help          Show this message
 
-	Examples
-	  $ ${path.basename(process.argv[1])} --file=EEggMA9IV81CYzCSI8LFEUOY
+  Examples
+    $ ${path.basename(process.argv[1])} --file=EEggMA9IV81CYzCSI8LFEUOY
 `,
     {
       hardRejection: false,
@@ -52,12 +52,12 @@ async function main() {
     }
   );
 
-  if (!cli.flags.force) {
-    await prechecks();
-  }
-
   if (!cli.flags.file) {
     cli.showHelp(1);
+  }
+
+  if (!cli.flags.force) {
+    await prechecks();
   }
 
   const figmaConfig = createFigmaConfig(cli.flags.file);
