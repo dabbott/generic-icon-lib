@@ -427,7 +427,12 @@ export async function generateIconManifest(icons: IIcons) {
     ...prettierOptions,
     parser: 'json',
   });
-  const previousIconManifest = await getCurrentIconManifest();
+  let previousIconManifest: IIconManifest;
+  try {
+    previousIconManifest = await getCurrentIconManifest();
+  } catch (e) {
+    previousIconManifest = {};
+  }
   await fs.writeFile(iconManifestFilePath, iconManifestRaw, {
     encoding: 'utf8',
   });
