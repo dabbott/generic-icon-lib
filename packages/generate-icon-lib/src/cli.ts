@@ -25,8 +25,8 @@ async function main() {
 
   Options
     --file, -f      File Key from Figma
-    --page, -p      Page name
-    --out, -o       Output directory. Defaults to current directory
+    --page, -p      Page name (Default: "Icons")
+    --out, -o       Output directory (Default: current directory)
     --force         Allow dirty working directory
     --help          Show this message
 
