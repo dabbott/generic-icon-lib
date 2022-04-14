@@ -1,6 +1,6 @@
 {
   "name": "@dabbott/generate-icon-lib",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Icon library src generator",
   "bin": {
     "generate-icon-lib": "./bin.js"
@@ -35,6 +35,7 @@
     "lodash": "^4.17.11",
     "meow": "^5.0.0",
     "node-fetch": "^2.4.1",
+    "prettier": "^2.6.2",
     "pretty-bytes": "^5.2.0",
     "react": "17",
     "svgo": "^1.2.2",
