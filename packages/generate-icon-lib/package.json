@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "rimraf dist && npx tsc --outDir dist",
-    "prepare": "npx build"
+    "prepare": "yarn run build"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.31",
