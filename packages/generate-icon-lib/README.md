@@ -1,9 +1,11 @@
-# @modulz/generate-icon-lib
+# @dabbott/generate-icon-lib
+
+Forked from [radix-ui/icons](https://github.com/radix-ui/icons/tree/ae5c48fc3cdafadddf97dc1c59d02027bd63e6bf/packages/generate-icon-lib) (MIT)
 
 ## Usage
 
 ```shell
-generate-icon-lib --file=<figma-file-key>
+npx @dabbott/generate-icon-lib --file=<figma-file-key>
 ```
 
 _The `figma-file-key` can be sourced from the link to a Figma document:_
@@ -21,16 +23,3 @@ Create an `.env` file an intended directory for easy reuse:
 ```shell
 echo "FIGMA_ACCESS_TOKEN=<token>" >> packages/radix-icons/.env
 ```
-
-## Future
-
-- [ ] Support importing from Sketch
-- [ ] Support importing from a directory of SVGs
-- [ ] Allow the CLI to re-run on existing SVGs in a package ie. after changing the React component template
-- [ ] Publish the `@modulz/generate-icon-lib` CLI Tool for public use
-
-## License
-
-Licensed under the MIT License, Copyright © 2020-present Modulz.
-
-See [LICENSE](./LICENSE.md) for more information.
