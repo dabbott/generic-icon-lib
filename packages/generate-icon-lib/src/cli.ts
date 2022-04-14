@@ -26,6 +26,7 @@ async function main() {
 	Options
 	  --file, -f      File Key from Figma
     --page, -p      Page name
+    --out, -o       Output directory. Defaults to current directory
     --force         Allow dirty working directory
 	  --help          Show this message
 
@@ -42,6 +43,10 @@ async function main() {
         page: {
           type: 'string',
           alias: 'p',
+        },
+        out: {
+          type: 'string',
+          alias: 'o',
         },
       },
     }
@@ -163,13 +168,13 @@ async function main() {
   });
 
   /* 7. Apply all new files, while removing previous dirs/files entirely. */
-  const touchedPaths = await swapGeneratedFiles(previousIconManifest, nextIconManifest);
+  const touchedPaths = await swapGeneratedFiles(previousIconManifest, nextIconManifest, cli.flags.out || process.cwd());
 
   render({
     spinners: [
       {
         success: true,
-        text: 'Applied changes to working directory 💇‍',
+        text: `Applied changes to ${cli.flags.out || 'working directory'} 💇‍`,
       },
     ],
   });

@@ -437,8 +437,11 @@ export async function generateIconManifest(icons: IIcons) {
 
 export async function swapGeneratedFiles(
   previousIconManifest: IIconManifest,
-  nextIconManifest: IIconManifest
+  nextIconManifest: IIconManifest,
+  outputDirectory: string
 ): Promise<string[]> {
+  outputDirectory = path.resolve(outputDirectory);
+
   /* We must find all dirs and files that were generated, and remove them: */
   let generatedFilePaths = [];
   //  1. The top-level dirs for previous SVGs
@@ -448,15 +451,16 @@ export async function swapGeneratedFiles(
   //  3. The top-level dirs for generated source
   generatedFilePaths = generatedFilePaths.concat([FILE_PATH_ENTRY, FILE_PATH_TYPES]);
   const topLevelDirs: string[] = _.uniq(generatedFilePaths.map((filePath) => filePath.replace(/^([\w-]+).*/, '$1')));
+
   for (const i in topLevelDirs) {
     const topLevelDir = topLevelDirs[i];
-    await fs.remove(path.resolve(process.cwd(), topLevelDir));
+    await fs.remove(path.resolve(outputDirectory, topLevelDir));
   }
   //  4. The manifest file
-  await fs.remove(path.resolve(process.cwd(), FILE_PATH_MANIFEST));
+  await fs.remove(path.resolve(outputDirectory, FILE_PATH_MANIFEST));
 
   /* Then we take all the contents of our temp dir and copy them to cwd: */
-  await fs.copy(currentTempDir, process.cwd());
+  await fs.copy(currentTempDir, outputDirectory);
 
   return [].concat(topLevelDirs, FILE_PATH_MANIFEST);
 }
