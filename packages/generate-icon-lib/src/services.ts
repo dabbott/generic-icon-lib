@@ -310,7 +310,7 @@ export function filePathToSVGinJSXSync(filePath: string) {
 
 export async function generateReactComponents(icons: IIcons) {
   const getTemplateSource = (templateFile) =>
-    fs.readFile(path.resolve(__dirname, './templates/', templateFile), {
+    fs.readFile(path.resolve(__dirname, '../templates/', templateFile), {
       encoding: 'utf8',
     });
   const templates = {
